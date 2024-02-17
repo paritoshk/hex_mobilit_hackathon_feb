@@ -62,11 +62,8 @@ def main():
 
     # Voice query section
     st.header("Ask a Safety Question 🎤")
-    if st.button("Record Your Question"):
-        # Actual implementation required for recording
-        st.write("Recording... (placeholder)")
-        # For demonstration, call the transcription and processing directly
-        record_and_transcribe()
+
+    record_and_transcribe()
 
 if __name__ == "__main__":
     main()
