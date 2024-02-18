@@ -83,9 +83,9 @@ def main():
     st.header("Welcome to the Safety Advisor App 🛡️")
     
     # User inputs for personalization
-    age = st.selectbox("Select your age range:", ["Under 18", "18-24", "25-34", "35-44", "45-54", "55-64", "65 or older"], key='age')
-    gender = st.selectbox("Select your gender:", ["Male", "Female", "Other"], key='gender')
-    build = st.selectbox("Select your build:", ["Small", "Medium", "Large"], key='build')
+    age = st.sidebar.selectbox("Select your age range:", ["Under 18", "18-24", "25-34", "35-44", "45-54", "55-64", "65 or older"], key='age')
+    gender = st.sidebar.selectbox("Select your gender:", ["Male", "Female", "Other"], key='gender')
+    build = st.sidebar.selectbox("Select your build:", ["Small", "Medium", "Large"], key='build')
     user_info = ''.join([age,gender,build])
 
     # Display user inputs for confirmation
