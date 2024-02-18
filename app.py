@@ -1,7 +1,9 @@
 import streamlit as st
 import pandas as pd
 import speech_recognition as sr
-
+import openai
+import datetime
+OPEN_AI_KEY = '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'
 # Assuming 'audiorecorder' is a placeholder function, as Streamlit does not natively support this out of the box.
 # This requires an external library or custom implementation for audio recording.
 from audiorecorder import audiorecorder  # Assuming audiorecorder is a custom component or external library
@@ -37,11 +39,33 @@ def record_and_transcribe():
 
 # Placeholder for processing the query with an LLM
 # Placeholder function for processing the safety query
-def process_safety_query(query):
-    # Dummy implementation - in practice, connect to an API or a model for a safety score
-    st.write(f"🔍 Analyzing: {query}")
-    # Example response
-    st.write("✅ This area is generally safe. Be cautious at night. 🌙")
+
+
+def process_safety_query(user_query:str, dataframe:pd.DataFrame):
+    # Convert the current dataframe state to JSON
+    dataframe_json = dataframe.to_json()
+    
+    # Get the current datetime
+    datetime_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    # Craft a message that includes the datetime, user query, and dataframe JSON
+    system_message = f"You are a helpful assistant. Provide safety information based on the current crime data. Current datetime: {datetime_now}."
+    user_message = f"{user_query} Data: {dataframe_json}"
+    
+    try:
+        completion = openai.ChatCompletion.create(
+            model="gpt-4-1106-preview",  # Replace with the appropriate model name, e.g., "gpt-4" if available
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "assistant","content":"Yes, I am ready to help you! Please share the data about street and incidents to support you!"},
+                {"role": "user", "content": user_message}
+            ],
+            max_tokens=50  # Adjust as necessary to fit your output requirements
+        )
+        return completion.choices[0].message
+    except Exception as e:
+        return str(e)
+    
 
 def main():
     st.header("Welcome to the Safety Advisor App 🛡️")
