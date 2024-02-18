@@ -3,3 +3,4 @@ streamlit-audiorecorder
 SpeechRecognition
 requests
 pydub
+openai
